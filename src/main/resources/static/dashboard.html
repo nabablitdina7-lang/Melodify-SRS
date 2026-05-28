@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melodify - Dashboard</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="sidebar">
+        <h2><i class="fas fa-music"></i> Melodify</h2>
+        <div id="userInfo"></div>
+        <nav class="nav-menu">
+            <ul>
+                <li><i class="fas fa-home"></i> <a href="#" onclick="loadPage('home')">Home</a></li>
+                <li><i class="fas fa-list"></i> <a href="#" onclick="loadPage('playlists')">Playlists</a></li>
+                <li><i class="fas fa-heart"></i> <a href="#" onclick="loadPage('library')">Library</a></li>
+                <li><i class="fas fa-search"></i> <a href="#" onclick="loadPage('search')">Search</a></li>
+                <li id="adminNavItem" style="display: none;"><i class="fas fa-crown"></i> <a href="#" onclick="loadPage('admin')">Admin</a></li>
+            </ul>
+        </nav>
+        <button onclick="logout()" class="logout-sidebar-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <div class="main" id="appContent">
+        <div id="pageContent">
+            <p>Loading...</p>
+        </div>
+    </div>
+</div>
+
+<div class="player">
+    <div class="player-content">
+        <!-- Left Section - Song Info -->
+        <div class="player-song">
+            <div class="song-artwork">
+                <i class="fas fa-music"></i>
+            </div>
+            <div class="song-details">
+                <div class="song-name" id="nowPlaying">Not Playing</div>
+                <div class="song-artist-name" id="currentArtist">Select a song</div>
+            </div>
+            <button class="like-song-btn" id="likeCurrentSong" style="display: none;">
+                <i class="far fa-heart"></i>
+            </button>
+        </div>
+
+        <!-- Center Section - Controls -->
+        <div class="player-controls-section">
+            <div class="player-controls">
+                <button class="control-btn" onclick="prevSong()">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                <button class="play-btn" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" onclick="nextSong()">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+            </div>
+            
+            <!-- Progress Bar Below Controls -->
+            <div class="progress-container">
+                <span id="currentTime" class="time">0:00</span>
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span id="duration" class="time">0:00</span>
+            </div>
+        </div>
+
+        <!-- Right Section - Volume -->
+        <div class="volume-container">
+            <i class="fas fa-volume-up" id="volumeIcon"></i>
+            <input type="range" id="volumeSlider" min="0" max="100" value="80">
+        </div>
+    </div>
+    <audio id="audioPlayer"></audio>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

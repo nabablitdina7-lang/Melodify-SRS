@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melodify - Register</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .auth-container {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    .logo {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .logo h1 {
+        color: #1db954;
+        font-size: 48px;
+        margin: 0;
+    }
+    .logo p {
+        color: #b3b3b3;
+        margin-top: 10px;
+    }
+    .auth-card {
+        background: #1e1e1e;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        box-sizing: border-box;
+    }
+    .auth-card h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: white;
+    }
+    .input-group {
+        margin-bottom: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #b3b3b3;
+    }
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #333;
+        background: #2a2a2a;
+        color: white;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+    .input-group input:focus {
+        outline: none;
+        border-color: #1db954;
+    }
+    .auth-btn {
+        width: 100%;
+        padding: 12px;
+        background: #1db954;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        box-sizing: border-box;
+    }
+    .auth-btn:hover {
+        background: #169c45;
+    }
+    .link {
+        text-align: center;
+        margin-top: 20px;
+        color: #b3b3b3;
+    }
+    .link a {
+        color: #1db954;
+        text-decoration: none;
+    }
+    .error-msg, .success-msg {
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: center;
+        display: none;
+    }
+    .error-msg {
+        background: #ff4444;
+        color: white;
+    }
+    .success-msg {
+        background: #1db954;
+        color: white;
+    }
+    
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+    }
+    .password-wrapper input {
+        width: 100%;
+        padding-right: 40px;
+    }
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+    }
+    .password-toggle:hover {
+        color: #1db954;
+    }
+</style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="logo">
+            <h1><i class="fas fa-music"></i> Melodify</h1>
+            <p>Join the Music Community</p>
+        </div>
+        <div class="auth-card">
+            <h2>Create Account</h2>
+            <div id="successMsg" class="success-msg"></div>
+            <div id="errorMsg" class="error-msg"></div>
+            <div class="input-group">
+                <label><i class="fas fa-envelope"></i> Email</label>
+                <input type="email" id="regEmail" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="regPassword" placeholder="Create a password">
+            </div>
+            <div class="input-group">
+                <label><i class="fas fa-check-circle"></i> Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password">
+            </div>
+            <button class="auth-btn" onclick="handleRegister()">
+                <i class="fas fa-user-plus"></i> Register
+            </button>
+            <div class="link">
+                Already have an account? <a href="login.html">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function handleRegister() {
+            const email = document.getElementById("regEmail").value;
+            const password = document.getElementById("regPassword").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const errorDiv = document.getElementById("errorMsg");
+            const successDiv = document.getElementById("successMsg");
+            
+            errorDiv.style.display = "none";
+            successDiv.style.display = "none";
+            
+            if (!email || !password || !confirmPassword) {
+                errorDiv.style.display = "block";
+                errorDiv.innerHTML = "Please fill in all fields";
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                errorDiv.style.display = "block";
+                errorDiv.innerHTML = "Passwords do not match";
+                return;
+            }
+            
+            if (password.length < 4) {
+                errorDiv.style.display = "block";
+                errorDiv.innerHTML = "Password must be at least 4 characters";
+                return;
+            }
+            
+            try {
+                const response = await fetch("http://localhost:8080/api/auth/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                if (response.ok) {
+                    successDiv.style.display = "block";
+                    successDiv.innerHTML = "Registration successful! Redirecting to login...";
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 2000);
+                } else {
+                    const error = await response.text();
+                    errorDiv.style.display = "block";
+                    errorDiv.innerHTML = error || "Registration failed. Email may already exist.";
+                }
+            } catch (error) {
+                errorDiv.style.display = "block";
+                errorDiv.innerHTML = "Network error. Please try again.";
+            }
+        }
+        
+        // Enter key support
+        document.getElementById("confirmPassword").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") handleRegister();
+        });
+    </script>
+</body>
+</html>

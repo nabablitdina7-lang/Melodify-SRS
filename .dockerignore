@@ -1,0 +1,27 @@
+# Git files
+.git
+.gitignore
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+.DS_Store
+
+# Build files
+target/
+*.log
+*.jar
+
+# Secrets
+application.properties
+*.properties
+.env
+
+# Uploaded files
+uploads/
+*.mp3
+
+# Documentation
+README.md
+HELP.md
