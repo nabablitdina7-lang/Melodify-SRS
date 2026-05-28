@@ -12,8 +12,6 @@ A Spotify-like music streaming web application built with Spring Boot, featuring
 
 ## 🔐 Default Admin Account
 
-The admin user is automatically created when you run Docker. Use these credentials:
-
 | Field | Value |
 |-------|-------|
 | **Email** | `admin@gmail.com` |
