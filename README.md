@@ -50,7 +50,7 @@ A Spotify-like music streaming web application built with Spring Boot, featuring
 ### Run the application
 
 # Run with Docker Compose
-docker-compose up --build
+docker compose up --build
 
 # Access the app
 # Open browser: http://localhost:8080/login.html
